@@ -1,0 +1,27 @@
+{
+  "name": "chatapp",
+  "version": "0.0.1",
+  "description": "chat application",
+  "main": "server.js",
+  "scripts": {
+    "test": "\"echo \\\"Error: no test specified\\\" && exit 1\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codesinghanoop/ChatApplication.git"
+  },
+  "keywords": [
+    "MEAN",
+    "stack"
+  ],
+  "author": "Anoop Singh",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codesinghanoop/ChatApplication/issues"
+  },
+  "homepage": "https://github.com/codesinghanoop/ChatApplication#readme",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^2.0.1"
+  }
+}
