@@ -1,15 +1,13 @@
-var app = require('express')()
-var http = require('http').server(app)
+var express=require('express');
+var app = express()
+var http = require('http').Server(app)
 var io = require('socket.io') (http)
-
-app.get('/', function(req,res){
-	res.sendfile('index.html')
-	
-})
+app.use(express.static(__dirname + '/Client'));
 
 io.on('connection', function(socket){
 	console.log('user connected')
 	socket.on('chat message', function(message){
+		console.log(message)
 		io.emit('chat message', message)
 	})
 	
@@ -22,3 +20,4 @@ io.on('connection', function(socket){
 http.listen(3000, function(){
 	console.log('listening on *:3000') 
 })
+
