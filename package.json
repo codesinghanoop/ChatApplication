@@ -21,7 +21,11 @@
   },
   "homepage": "https://github.com/codesinghanoop/ChatApplication#readme",
   "dependencies": {
+    "body-parser": "^1.17.1",
     "express": "^4.15.2",
+    "ip": "^1.1.5",
+    "mongoose": "^4.9.9",
+    "nodemon": "^1.11.0",
     "socket.io": "^2.0.1"
   }
 }
