@@ -83,6 +83,71 @@ app.controller('mycontroller',['$scope','socket','$http','$mdDialog','$compile',
 			
 		})
 	})
-}
+	
+	socket.on('users', function(data){
+		
+		$scope.$apply(function(){
+			$scope.users =[]
+			$scope.online_friends = []
+			for(var i in data)
+			{
+				if(i != $scope.user)
+				{
+					if($scope.allfriends.includes(i))
+					{
+						$scope.online_friends.push(i)
+					}
+					else{
+						$scope.users.push(i)
+					}
+				}
+			}	
+		})
+		
+	})
+	
+    $scope.confirm=function(){
+		var data = {
+			"friend_handle": $scope.friend,
+			"my_handle": $scope.user
+		}
+		 
+	  $http({method: 'POST', url: 'http://'+url+'/friend_request',data})	 
+		.success(function(data){
+			console.log('request accepted',data)
+		})
+		.error(function(error){
+			console.log('error')
+		})
+	}
+
+    $scope.showConfirm = function(data) {
+		var confirm = $mdDialog.confirm()
+		.title("Friend Request")
+		.textContent(data.my_handle+ 'wants to connect. please confirm ?')
+		.ariaLable('Lucky day')
+		.ok('ok')
+		.cancle('No')
+		
+		$mdDialog.show(confirm).then(function(){
+			data['confirm'] = "Yes"
+			$http({method: 'POST',url: 'http://'+url+'/friend_request/confirmed', data})
+		
+	}, function(){
+		data['confirm'] = "No"
+		$http({method: 'POST',url:'http://'+url+'/friend_request/confirmed', data})
+	})	
+	
+   }
+   
+   $scope.on('message',function(data){
+	   $scope.showConfirm(data);
+   })
+   
+   
+
+
+
+
 ])
 
