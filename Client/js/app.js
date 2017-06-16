@@ -397,6 +397,65 @@ app.controller('mycontroller',['$scope','socket','$http','$mdDialog','$compile',
         }   
     }
 	
+}]);	
+	
+	app.service('encrypt', function() {
+    this.hash =function(str){
+        h = 7;
+        letters = "abcdefghijklmnopqrstuvwxyz-_1234567890@!#$%&*.,"
+        for (var i=0;i<str.length;i++){
+            h = (h * 37 + letters.indexOf(str[i]))
+        }
+        return h
+    }
+    });
+	
+	app.controller('registerController',['$scope','encrypt','$http','$state',function($scope,encrypt,$http,$state){
+    url= location.host;
+
+    $scope.user={
+        'name':'',
+        'handle':'',
+        'password':'',
+        'email':'',
+        'phone':''
+    };
+
+    $scope.login_data={
+        'handle':'',
+        'password':''
+    };
+
+    $scope.Register = function(){
+        $scope.user.password=encrypt.hash($scope.user.password);
+
+        $http({method: 'POST',url:'http://'+url+'/register', data:$scope.user})//, headers:config})
+            .success(function (data) {
+            console.log(data)
+        })
+            .error(function (data) {
+            //add error handling
+            console.log(data)
+        });
+    }
+
+    $scope.login = function(){
+        console.log("login");
+        $scope.login_data.password=encrypt.hash($scope.login_data.password);
+        console.log($scope.login_data);
+        $http({ method: 'POST', url:'http://'+url+'/login', data:$scope.login_data })//, headers:config})
+            .success(function (data) {
+            if(data=="success"){
+                console.log("Inside success login");
+                $state.go('loggedin');
+            }
+        })
+            .error(function (data) {
+            //add error handling
+            console.log(data)
+        });
+    }
+	
 	
 }])
 
